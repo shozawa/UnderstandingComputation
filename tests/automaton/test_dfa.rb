@@ -35,11 +35,13 @@ class TestDFA < Test::Unit::TestCase
 
   def test_simple_case
     assert_equal(@dfa.accepting?, false)
-    @dfa.read_character('a')
-    assert_equal(@dfa.accepting?, false)
-    @dfa.read_character('b')
-    assert_equal(@dfa.accepting?, false)
-    @dfa.read_character('c')
+    @dfa.read_string('abc')
     assert_equal(@dfa.accepting?, true)
+  end
+
+  def test_rejection
+    assert_equal(@dfa.accepting?, false)
+    @dfa.read_string('ab')
+    assert_equal(@dfa.accepting?, false)
   end
 end

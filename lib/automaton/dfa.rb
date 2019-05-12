@@ -3,6 +3,14 @@ class DFA < Struct.new(:current_state, :accept_states, :rulebook)
     accept_states.include?(current_state)
   end
 
+  def read_string(string)
+    string.chars.each do |c|
+      read_character(c)
+    end
+  end
+
+  private
+
   def read_character(character)
     self.current_state = rulebook.next_state(current_state, character)
   end
