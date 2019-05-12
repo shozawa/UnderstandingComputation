@@ -1,3 +1,13 @@
+class DFADesign < Struct.new(:current_state, :accept_states, :rulebook)
+  def to_dfa
+    DFA.new(current_state, accept_states, rulebook)
+  end
+
+  def accept(string)
+    to_dfa.tap { |dfa| dfa.read_string(string) }.accepting?
+  end
+end
+
 class DFA < Struct.new(:current_state, :accept_states, :rulebook)
   def accepting?
     accept_states.include?(current_state)
