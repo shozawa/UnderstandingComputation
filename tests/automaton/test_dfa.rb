@@ -30,7 +30,7 @@ class TestDFA < Test::Unit::TestCase
       ]
     )
     @dfa = DFA.new(1, [4], rulebook)
-    @builder = DFADesign(1, [4], rulebook)
+    @builder = DFADesign.new(1, [4], rulebook)
   end
 
   def test_accepting?
