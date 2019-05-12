@@ -18,6 +18,16 @@ class NFA < Struct.new(:current_states, :accept_states, :rulebook)
   end
 end
 
+class NFADesign < Struct.new(:current_states, :accept_states, :rulebook)
+  def accepts?(string)
+    new_nfa.tap { |nfa| nfa.read_string(string) }.accepting?
+  end
+
+  def new_nfa
+    NFA.new(current_states, accept_states, rulebook)
+  end
+end
+
 class NFARuleBook < Struct.new(:rules)
   def next_states(states, character)
     states.flat_map { |state| follow_rules_for(state, character) }.to_set

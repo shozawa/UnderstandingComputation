@@ -5,18 +5,25 @@ require './lib/automaton/fa_rule.rb'
 require './lib/automaton/nfa.rb'
 
 class TestNFA < Test::Unit::TestCase
-  def test_simple_case
+  def setup
     rulebook = NFARuleBook.new(
       [
-        FARule.new(1, 'a', 2),
-        FARule.new(2, 'a', 100),
+        FARule.new(1, 'a', 1),
+        FARule.new(1, 'b', 1),
+        FARule.new(1, 'b', 2),
+        FARule.new(2, 'a', 3),
         FARule.new(2, 'b', 3),
-        FARule.new(3, 'c', 3)
+        FARule.new(3, 'a', 4),
+        FARule.new(3, 'b', 4)
       ]
     )
-    nfa = NFA.new(Set.new([1]), Set.new([100]), rulebook)
-    nfa.read_string('aa')
-    assert_equal(true, nfa.accepting?)
+    @design = NFADesign.new(Set.new([1]), Set.new([4]), rulebook)
+  end
+
+  def test_simple_case
+    assert_equal(true, @design.accepts?('baa'))
+    assert_equal(true, @design.accepts?('bbbbb'))
+    assert_equal(false, @design.accepts?('abb'))
   end
 end
 
