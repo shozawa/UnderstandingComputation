@@ -4,5 +4,9 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'rubocop', group: :development
-gem 'solargraph', group: :development
+group :development do
+  gem 'power_assert'
+  gem 'rubocop'
+  gem 'solargraph'
+  gem 'test-unit'
+end
