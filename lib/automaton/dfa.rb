@@ -1,3 +1,13 @@
+class DFA < Struct.new(:current_state, :accept_states, :rulebook)
+  def accepting?
+    accept_states.include?(current_state)
+  end
+
+  def read_character(character)
+    self.current_state = rulebook.next_state(current_state, character)
+  end
+end
+
 class FARule < Struct.new(:state, :character, :next_state)
   def apply_to?(state, character)
     self.state == state && self.character == character
@@ -16,6 +26,8 @@ class DFARuleBook < Struct.new(:rules)
   def next_state(state, character)
     rule_for(state, character).follow
   end
+
+  private
 
   def rule_for(state, character)
     rules.detect { |rule| rule.apply_to?(state, character) }
