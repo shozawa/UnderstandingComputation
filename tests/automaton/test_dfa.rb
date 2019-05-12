@@ -4,11 +4,13 @@ require './lib/automaton/dfa.rb'
 
 class TestFARuleBook < Test::Unit::TestCase
   def setup
-    @rule_book = DFARuleBook.new([
-                                   FARule.new(1, 'a', 2),
-                                   FARule.new(2, 'a', 2),
-                                   FARule.new(2, 'b', 3),
-                                 ])
+    @rule_book = DFARuleBook.new(
+      [
+        FARule.new(1, 'a', 2),
+        FARule.new(2, 'a', 2),
+        FARule.new(2, 'b', 3)
+      ]
+    )
   end
 
   def test_simple_case
@@ -20,12 +22,15 @@ end
 
 class TestDFA < Test::Unit::TestCase
   def setup
-    rule_book = DFARuleBook.new([
-                                  FARule.new(1, 'a', 2),
-                                  FARule.new(2, 'b', 3),
-                                  FARule.new(3, 'c', 4),
-                                ])
-    @dfa = DFA.new(1, [4], rule_book)
+    rulebook = DFARuleBook.new(
+      [
+        FARule.new(1, 'a', 2),
+        FARule.new(2, 'b', 3),
+        FARule.new(3, 'c', 4)
+      ]
+    )
+    @dfa = DFA.new(1, [4], rulebook)
+    @builder = DFADesign(1, [4], rulebook)
   end
 
   def test_accepting?
