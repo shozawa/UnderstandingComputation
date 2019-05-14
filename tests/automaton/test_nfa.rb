@@ -27,6 +27,43 @@ class TestNFA < Test::Unit::TestCase
   end
 end
 
+class TestFreeMove < Test::Unit::TestCase
+  def setup
+    rulebook = NFARuleBook.new(
+      [
+        FARule.new(1, nil, 2),
+        FARule.new(1, nil, 4),
+        FARule.new(2, 'a', 3),
+        FARule.new(3, 'a', 2),
+        FARule.new(4, 'a', 5),
+        FARule.new(5, 'a', 6),
+        FARule.new(6, 'a', 4),
+      ]
+    )
+    @design = NFADesign.new(Set.new([1]), Set.new([2, 4]), rulebook)
+  end
+
+  def test_simple_case
+    assert_equal(true, @design.accepts?('aa'))
+    assert_equal(true, @design.accepts?('aaa'))
+    assert_equal(true, @design.accepts?('aaaa'))
+    assert_equal(false, @design.accepts?('aaaaa'))
+  end
+end
+
+class TestFreeMove < Test::Unit::TestCase
+  def test_current_state
+    rulebook = NFARuleBook.new(
+      [
+        FARule.new(1, nil, 2),
+        FARule.new(1, nil, 3)
+      ]
+    )
+    nfa = NFA.new(Set.new([1]), Set.new([2]), rulebook)
+    assert_equal(Set.new([1, 2, 3]), nfa.current_states)
+  end
+end
+
 class TestNFARuleBook < Test::Unit::TestCase
   def test_simple_case
     rulebook = NFARuleBook.new(
